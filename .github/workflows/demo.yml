@@ -1,0 +1,43 @@
+name: Deploy website
+on:
+  push:
+    branches:
+      - master
+env:
+  MONGODB_DB_NAME: github-actions
+jobs:
+  test:
+    env:
+      MONGODB_CLUSTER_ADDRESS: github-actions.umzfv.mongodb.net
+      MONGODB_USERNAME: medox
+      MONGODB_PASSWORD: 2.F8Yc6AjaAs!m#
+      PORT: 8080
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Run server
+        run: npm run start & npx wait-on http://127.0.0.1:${{ env.PORT }}
+      - name: Test code
+        run: npm run test
+      - name: Output server logs
+        run: cat server.log
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output environment variables
+        run: |
+          echo "Deploying..."
+          echo "MONGODB_CLUSTER_ADDRESS: ${{ env.MONGODB_CLUSTER_ADDRESS }}"
+          echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}"
+          echo "MONGODB_PASSWORD: ${{ env.MONGODB_PASSWORD }}"
+          echo "MONGODB_DB_NAME: ${{ env.MONGODB_DB_NAME }}"
+          echo "PORT: ${{ env.PORT }}"
