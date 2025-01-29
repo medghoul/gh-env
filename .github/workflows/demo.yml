@@ -10,7 +10,7 @@ jobs:
     env:
       MONGODB_CLUSTER_ADDRESS: github-actions.umzfv.mongodb.net
       MONGODB_USERNAME: medox
-      MONGODB_PASSWORD: 2.F8Yc6AjaAs!m#
+      MONGODB_PASSWORD: 2.F8Yc6AjaAs%21m%23
       PORT: 8080
     runs-on: ubuntu-latest
     steps:
