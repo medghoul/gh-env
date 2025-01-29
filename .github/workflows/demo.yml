@@ -27,8 +27,6 @@ jobs:
         run: npm run start & npx wait-on http://127.0.0.1:${{ env.PORT }}
       - name: Test code
         run: npm run test
-      - name: Output server logs
-        run: cat server.log
   deploy:
     needs: test
     runs-on: ubuntu-latest
