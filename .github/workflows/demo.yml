@@ -4,14 +4,14 @@ on:
     branches:
       - master
 env:
-  MONGODB_DB_NAME: github-actions
+  MONGODB_DB_NAME: ${{ secrets.MONGODB_DB_NAME }}
 jobs:
   test:
     env:
-      MONGODB_CLUSTER_ADDRESS: github-actions.umzfv.mongodb.net
-      MONGODB_USERNAME: medox
-      MONGODB_PASSWORD: 2.F8Yc6AjaAs%21m%23
-      PORT: 8080
+      MONGODB_CLUSTER_ADDRESS: ${{ secrets.MONGODB_CLUSTER_ADDRESS }}
+      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+      PORT: ${{ secrets.PORT }}
     runs-on: ubuntu-latest
     steps:
       - name: Get code
